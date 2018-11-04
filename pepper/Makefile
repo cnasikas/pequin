@@ -2,7 +2,7 @@ CXX = g++
 
 # according to libsnark's documentation, we need to use the same conditional defines libsnark was compiled with, as found in
 # thirdparty/libsnark/build/libsnark/CMakeFiles/snark.dir/flags.make
-CXXFLAGS = -m64 -std=c++11 -DCURVE_BN128 -DBN_SUPPORT_SNARK -DBINARY_OUTPUT -DMONTGOMERY_OUTPUT -DNO_PROCPS -DUSE_ASM
+CXXFLAGS = -m64 -std=c++11 -DCURVE_ALT_BN128 -DBN_SUPPORT_SNARK -DBINARY_OUTPUT -DMONTGOMERY_OUTPUT -DNO_PROCPS -DUSE_ASM
 
 AR	:= ar rcs
 
@@ -25,7 +25,7 @@ OBJDIR = obj
 
 DB_HASH_FUNC = ggh
 
-#FLAGS FOR hashgetdb AND hashputdb: 
+#FLAGS FOR hashgetdb AND hashputdb:
 ifeq ($(DB_HASH_FUNC),null)
   DB_HASH_NUM_BITS = 256
 else
@@ -95,7 +95,7 @@ pepper_verifier_%: pepper_verifier.cpp objs common_defs.h $(BINDIR)/%.params
 pepper_prover_%: pepper_prover.cpp objs common_defs.h $(BINDIR)/%.params
 	$(eval TARG := $(@:pepper_prover_%=%))
 	$(CXX) $(CXXFLAGS) -DNAME=\"$(TARG)\" $(IFLAGS)  $<  -o $(BINDIR)/$@ $(COMMON_LIB_OBJFILES) $(LDFLAGS)
-	
+
 objs: $(COMMON_LIB_OBJFILES)
 		@echo + compiling common objs
 
@@ -151,7 +151,7 @@ $(BINDIR)/%.params : apps/%.sfdl apps/*.h ../compiler/cstdinc/*
 $(OBJDIR)/%.o: %.cpp
 	@echo + cpp $<
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@ 
+	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
 .PRECIOUS: $(BINDIR)/%.params
 
@@ -175,7 +175,7 @@ clean:
 	rm -f ../compiler/backend/*.pyc
 	rm -f ../compiler/backend/tmptime
 	rm -f ../compiler/tmptime
-	cd ../compiler/frontend; make clean; 
+	cd ../compiler/frontend; make clean;
 	cd ../compiler/buffetfsm; make clean;
 
 gadget%: ext_gadget_bridge.cpp
